@@ -98,3 +98,61 @@ For functions we can type annotate their parameters and their return values. Go 
 In `index.ts`, we technically don't need to specify the return value of the function because the return type is deferred to the `Math.pow()` function, which has a `number` return value. You can however, annotate the return value as being a string, if the function does indeed return a string.
 
 Sometimes your functions might not return anything, or it might have some kind of side effect. In that case, you can annotate the return value as being `void`.
+
+## 006 - Generics
+
+Generics allow you to wrap functionality around other types.
+
+We've already been using generics in a way.
+Recall how we have two separate ways to declare arrays explicitly.
+
+```typescript
+// using string[]
+const nameList: string[] = ['Jane', 'Doe'];
+// using Array<string>
+const nameList2: Array<string> = ['John', 'Dough'];
+```
+
+The thing is, that regardless of whether an array contains numbers, strings, or any other data types, the functions we use to operate on the array are the same (`.push()`, `.pop()`, etc).
+
+Referring to the example in `index.ts`; we didn't have to strongly type `a` and `b`. Even though we performed the same operation on two different arrays, the return type is different.
+
+This is what generics is largely about; just like these arrays, generics are about wrapping common functionality around some other type.
+
+The promises are a great example of this as well. We have two promises, which give us the same interface to operate on.
+
+To make it more clear, let's make our own generic and reason about why we need a different syntax for typing.
+
+Refer to `index.ts` in `/006_generics`, below line 16.
+
+Let's use an identity function as an example. This just returns whatever is passed in.
+
+To  make this function work, we could certainly just use the `any` keyword so that we're able to pass anything into the function, but then we'd lose typing information. If you hover over `result`, TypeScript says this type is `any` still, since the identity function returns `any` type.
+
+To make this function better, we need a way to denote that the type returned is the same as the type we passed in.
+
+`identity2` resolves this problem. In effect, we parameterize the type being given to the function, and use that parameter to denote that the return type is the same type.
+
+Now, we can use this to create `result2`. If you hover your mouse over `result2`, you can see that it's typed as a string.
+
+Generics help us type things that are inside functions, even when we may not know the type being given until we use the function. Generics allow us to create functions that are _generic_, but still enforce typing depending on what we pass in.
+
+On line 28, we create a result variable. We don't have to type `result2`, because the function is able to tell TypeScript what the return value is. TypeScript only knows what the type of the return value is because the function was written such that the type of the return value is the same as whatever is passed in.
+
+On line 29, we use what's called _type argument inference_, that is, since TypeScript already knows the type of the argument, TypeScript can automatically set `Type` using the type of what was passed in.
+
+This is a quite short introduction to generics. I'll have to cover more advanced topics / use cases within using generic types in another section.
+
+## 007 - Enums and Tuples
+In TypeScript we're given two new data types. Enums and Tuples.
+
+Tuples are fixed-size arrays. Or at least in the case fo TypeScript, their length is controlled in some way.
+
+Enums are finite sets of values. Enums aren't natively supported in JavaScript
+
+## 008 - Interfaces
+
+Interfaces are very similar to types. Typically, the purpose of an interface is to enforce the "shape" of an object. In most common cases, you can can use `type` as a substitute for `interface`, since with `types` you can still describe the shape of an object. That being said, despite how similar they are, here I'll review the differences between the two and give use cases for either.
+
+When I heard that types can be used for basically anything an interface can be used for, my first reaction was to never use interfaces since there's no point. But, perhaps types and interfaces, despite being so similar, are meant to communicate slightly different things to the engineer reading the code. Maybe interfaces are more for readability than anything else. Anyhow, let's step into this.
+
