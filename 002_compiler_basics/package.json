@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@types/lodash": "^4.14.199",
+    "lodash": "^4.17.21",
+    "typescript": "^5.2.2"
+  }
+}
